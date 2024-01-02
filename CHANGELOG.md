@@ -1,5 +1,11 @@
 # @rebuildjs/tailwindcss
 
+## 0.1.2
+
+### Patch Changes
+
+- rebuild_tailwind_plugin: fix: implementation
+
 ## 0.1.1
 
 ### Patch Changes

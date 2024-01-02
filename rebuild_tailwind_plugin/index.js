@@ -1,18 +1,38 @@
-import { Cancel, nullish__none_, run, tup } from 'ctx-core/function'
-import { be, memo_ } from 'ctx-core/rmemo'
+import { file_exists_, file_exists__waitfor } from 'ctx-core/fs'
+import { Cancel, nullish__none_, run, sleep, tup } from 'ctx-core/function'
+import { be, be_memo_pair_, be_sig_triple_, memo_ } from 'ctx-core/rmemo'
 import { readFile, writeFile } from 'node:fs/promises'
+import { join } from 'path'
 import postcss from 'postcss'
 import {
 	app_ctx,
 	browser__output_,
 	build_id_,
+	cwd_,
+	rebuildjs__build_id_,
+	rebuildjs__ready_,
 	server__output_,
 	server__output__relative_path_M_middleware_ctx_
 } from 'rebuildjs'
-import { relysjs__build_id_, relysjs__ready_ } from 'relysjs'
 import tailwind from 'tailwindcss'
+export const [
+	rebuild_tailwind_plugin__build_id$_,
+	rebuild_tailwind_plugin__build_id_,
+	rebuild_tailwind_plugin__build_id__set,
+] = be_sig_triple_(
+	()=>undefined,
+	{ id: 'rebuild_tailwind_plugin__build_id', ns: 'app' })
+export const [
+	rebuild_tailwind_plugin__ready$_,
+	rebuild_tailwind_plugin__ready_,
+] = be_memo_pair_(ctx=>
+	!!(
+		build_id_(ctx)
+			&& rebuildjs__ready_(ctx)
+			&& build_id_(ctx) === rebuild_tailwind_plugin__build_id_(ctx)),
+{ id: 'rebuild_tailwind_plugin__ready', ns: 'app' })
 export function rebuild_tailwind_plugin_() {
-	return { name: 'tailwind', setup: setup_() }
+	return { name: 'rebuild_tailwind_plugin', setup: setup_() }
 	function setup_() {
 		/**
 		 * @param {import('esbuild').PluginBuild}build
@@ -32,14 +52,14 @@ export function rebuild_tailwind_plugin_() {
 					r()
 					return tailwind__build$
 					function r() {
-						if (!relysjs__ready_(ctx)) return
+						if (!rebuildjs__ready_(ctx)) return
 						nullish__none_(tup(
 							build_id_(ctx),
-							relysjs__build_id_(ctx),
+							rebuildjs__build_id_(ctx),
 							server__output__relative_path_M_middleware_ctx_(app_ctx),
 						), async (
 							build_id,
-							relysjs__build_id,
+							rebuildjs__build_id,
 							server__output__relative_path_M_middleware_ctx,
 						)=>{
 							try {
@@ -47,6 +67,7 @@ export function rebuild_tailwind_plugin_() {
 									await output__process(server__output_(middleware_ctx))
 									await output__process(browser__output_(middleware_ctx))
 								}
+								rebuild_tailwind_plugin__build_id__set(ctx, build_id)
 							} catch (err) {
 								if (err instanceof Cancel) return
 								throw err
@@ -60,18 +81,35 @@ export function rebuild_tailwind_plugin_() {
 							) {
 								const cssBundle = output?.cssBundle
 								if (!cssBundle) return
-								const result = await cmd(postcss[
+								const cssBundle_path = join(cwd_(ctx), cssBundle)
+								const esbuild_cssBundle = output.esbuild_cssBundle ?? cssBundle
+								const esbuild_cssBundle_path = join(cwd_(ctx), esbuild_cssBundle)
+								await file_exists__waitfor(
+									esbuild_cssBundle_path,
+									1000,
+									()=>cmd(sleep(0)))
+								const esbuild_cssBundle_map_path = esbuild_cssBundle_path + '.map'
+								const esbuild_cssBundle_map_exists = await cmd(file_exists_(esbuild_cssBundle_map_path))
+								const result = await cmd(postcss([
 									tailwind({
-										content: output.cssBundle_content
+										content: output.cssBundle_content.map(content__relative_path=>
+											join(cwd_(ctx), content__relative_path))
 									})
 								]).process(
-									await cmd(readFile(cssBundle)),
+									await cmd(readFile(esbuild_cssBundle_path)),
 									{
-										from: cssBundle,
-										to: cssBundle,
-									})
-								await cmd(writeFile(cssBundle, result.css))
-								await cmd(writeFile(cssBundle + '.map', JSON.stringify(result.map)))
+										from: esbuild_cssBundle_path,
+										to: cssBundle_path,
+										map: esbuild_cssBundle_map_exists
+											? {
+												prev: JSON.parse(await cmd(readFile(esbuild_cssBundle_path + '.map')))
+											}
+											: false,
+									}))
+								await cmd(writeFile(cssBundle_path, result.css))
+								if (result.map) {
+									await cmd(writeFile(cssBundle_path + '.map', JSON.stringify(result.map)))
+								}
 							}
 							async function cmd(promise) {
 								if (cancel_()) throw new Cancel()
@@ -85,7 +123,7 @@ export function rebuild_tailwind_plugin_() {
 							function cancel_() {
 								return (
 									build_id_(ctx) !== build_id
-									|| relysjs__build_id_(ctx) !== relysjs__build_id
+									|| rebuildjs__build_id_(ctx) !== rebuildjs__build_id
 									|| server__output__relative_path_M_middleware_ctx_(
 										ctx) !== server__output__relative_path_M_middleware_ctx
 								)
