@@ -1,0 +1,66 @@
+{
+	"name": "@rebuildjs/tailwindcss",
+	"version": "0.0.0",
+	"description": "Tailwindcss integration with rebuildjs",
+	"keywords": [
+		"tailwindcss",
+		"reactive",
+		"multi page apps",
+		"web app",
+		"web server",
+		"esbuild",
+		"rmemo",
+		"ctx-core"
+	],
+	"homepage": "https://github.com/rebuildjs/tailwindcss#readme",
+	"bugs": {
+		"url": "https://github.com/rebuildjs/tailwindcss/issues"
+	},
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/rebuildjs/tailwindcss.git"
+	},
+	"license": "Apache-2.0",
+	"author": "Brian Takita",
+	"type": "module",
+	"files": [
+		"*.d.ts",
+		"*.js",
+		"*.json"
+	],
+	"types": "./index.d.ts",
+	"exports": {
+		".": "./index.js",
+		"./package.json": "./package.json"
+	},
+	"scripts": {
+		"build": ":",
+		"clean": ":",
+		"exec": "$@",
+		"prepublishOnly": "pnpm clean && pnpm build && pnpm test",
+		"test": "pnpm test:unit && pnpm test:types",
+		"test:types": "check-dts",
+		"test:unit": "NODE_OPTIONS=--loader=esmock tsx node_modules/uvu/bin.js . '\\.test\\.(ts|js)$'",
+		"test:unit:coverage": "c8 pnpm test:unit"
+	},
+	"dependencies": {
+		"ctx-core": "^5.10.0",
+		"esbuild": "^0.19.11",
+		"postcss": "^8.4.32",
+		"rebuildjs": "^0.29.1",
+		"tailwindcss": "^3.4.0"
+	},
+	"devDependencies": {
+		"c8": "^8.0.1",
+		"check-dts": "^0.7.2",
+		"esmock": "^2.6.0",
+		"tsx": "^4.7.0",
+		"typescript": "next",
+		"uvu": "^0.5.6"
+	},
+	"publishConfig": {
+		"access": "public",
+		"cache": "~/.npm"
+	},
+	"sideEffects": false
+}

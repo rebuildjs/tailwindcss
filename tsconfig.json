@@ -1,0 +1,12 @@
+{
+	"compileOnSave": true,
+	"compilerOptions": {
+		"module": "ESNext",
+		"moduleResolution": "nodenext",
+		"target": "ESNext",
+		"strict": true
+	},
+	"include": ["_fixtures/**/*"],
+	"exclude": ["node_modules"],
+	"references": []
+}
