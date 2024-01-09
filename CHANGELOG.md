@@ -1,5 +1,13 @@
 # @rebuildjs/tailwindcss
 
+## 0.1.16
+
+### Patch Changes
+
+- fix: rollback: rebuild*tailwind_plugin*: tailwind\__build$_: memo: void
+- Updated dependencies
+  - rebuildjs@0.34.4
+
 ## 0.1.15
 
 ### Patch Changes
