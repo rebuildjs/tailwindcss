@@ -52,7 +52,7 @@
 		"tailwindcss": "^3.4.1"
 	},
 	"devDependencies": {
-		"c8": "^9.0.0",
+		"c8": "^9.1.0",
 		"check-dts": "^0.7.2",
 		"esmock": "^2.6.0",
 		"relementjs": "^0.47.0",
