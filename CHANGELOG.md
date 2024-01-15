@@ -1,5 +1,14 @@
 # @rebuildjs/tailwindcss
 
+## 0.1.32
+
+### Patch Changes
+
+- import nodejs core modules using node: prefix
+- Updated dependencies
+  - ctx-core@5.18.8
+  - rebuildjs@0.37.6
+
 ## 0.1.31
 
 ### Patch Changes

@@ -1,7 +1,7 @@
 import { BuildContext } from 'esbuild'
-import { readFile } from 'fs/promises'
+import { readFile } from 'node:fs/promises'
 import { rm } from 'node:fs/promises'
-import { dirname, join } from 'path'
+import { dirname, join } from 'node:path'
 import {
 	app_ctx,
 	browser__build,
