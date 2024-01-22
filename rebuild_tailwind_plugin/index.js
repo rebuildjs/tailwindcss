@@ -12,7 +12,7 @@ import {
 	rebuildjs__ready_,
 	server__output_,
 	server__output__relative_path_M_middleware_ctx_
-} from 'rebuildjs'
+} from 'rebuildjs/server'
 import tailwind from 'tailwindcss'
 export const [
 	rebuild_tailwind_plugin__build_id$_,

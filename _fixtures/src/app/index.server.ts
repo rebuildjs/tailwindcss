@@ -1,5 +1,5 @@
 import './index.server.css'
-import { assets_, type middleware_ctx_T, route_ctx__new } from 'rebuildjs'
+import { assets_, type middleware_ctx_T, route_ctx__new } from 'rebuildjs/server'
 export default (middleware_ctx:middleware_ctx_T)=>{
 	return (request:Request)=>{
 		const route_ctx = route_ctx__new(middleware_ctx)

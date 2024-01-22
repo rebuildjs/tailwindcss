@@ -4,7 +4,7 @@ import { rm } from 'node:fs/promises'
 import { dirname, join } from 'node:path'
 import {
 	app_ctx,
-	browser__build,
+	rebuildjs_browser__build,
 	browser__metafile_,
 	browser__metafile__set,
 	build_id__set,
@@ -15,10 +15,10 @@ import {
 	rebuildjs__ready_,
 	rebuildjs__ready__wait,
 	rmemo__wait,
-	server__build,
+	rebuildjs_server__build,
 	server__metafile_,
 	server__metafile__set
-} from 'rebuildjs'
+} from 'rebuildjs/server'
 import { test } from 'uvu'
 import { equal, throws } from 'uvu/assert'
 import { browser__metafile0, server__metafile0 } from '../_fixtures/metafiles.js'
@@ -78,8 +78,8 @@ test('rebuild_tailwind_plugin_', async ()=>{
 	let browser__build_context:BuildContext|undefined = undefined
 	try {
 		const rebuild_tailwind_plugin = rebuild_tailwind_plugin_()
-		server__build_context = await server__build({ plugins: [rebuild_tailwind_plugin] })
-		browser__build_context = await browser__build({ plugins: [rebuild_tailwind_plugin] })
+		server__build_context = await rebuildjs_server__build({ plugins: [rebuild_tailwind_plugin] })
+		browser__build_context = await rebuildjs_browser__build({ plugins: [rebuild_tailwind_plugin] })
 		await rebuildjs__ready__wait()
 		const server__metafile = server__metafile_(app_ctx)!
 		const server__output__relative_path =
