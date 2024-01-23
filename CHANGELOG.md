@@ -1,5 +1,11 @@
 # @rebuildjs/tailwindcss
 
+## 0.1.56
+
+### Patch Changes
+
+- relementjs: ^0.53.0 -> ^0.53.1
+
 ## 0.1.55
 
 ### Patch Changes
