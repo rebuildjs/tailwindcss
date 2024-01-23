@@ -1,5 +1,14 @@
 # @rebuildjs/tailwindcss
 
+## 0.2.2
+
+### Patch Changes
+
+- esmock: ^2.6.2 -> ^2.6.3
+- Updated dependencies
+  - ctx-core@5.28.1
+  - rebuildjs@0.47.1
+
 ## 0.2.1
 
 ### Patch Changes
