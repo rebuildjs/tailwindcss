@@ -1,5 +1,11 @@
 # @rebuildjs/tailwindcss
 
+## 0.2.0
+
+### Minor Changes
+
+- rebuild*tailwind_plugin*: arguments: (config?:Config)
+
 ## 0.1.62
 
 ### Patch Changes

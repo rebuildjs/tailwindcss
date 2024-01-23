@@ -30,7 +30,7 @@ export const [
 			&& rebuildjs__ready_(ctx)
 			&& build_id_(ctx) === rebuild_tailwind_plugin__build_id_(ctx)),
 { id: 'rebuild_tailwind_plugin__ready', ns: 'app' })
-export function rebuild_tailwind_plugin_() {
+export function rebuild_tailwind_plugin_(config) {
 	return { name: 'rebuild_tailwind_plugin', setup: setup_() }
 	function setup_() {
 		/**
@@ -72,7 +72,7 @@ export function rebuild_tailwind_plugin_() {
 								throw err
 							}
 							/**
- 							 * @param {rebuildjs_metafile_T['outputs'][string]}output
+							 * @param {rebuildjs_metafile_T['outputs'][string]}output
 							 * @returns {Promise<void>}
 							 */
 							async function output__process(
@@ -91,8 +91,12 @@ export function rebuild_tailwind_plugin_() {
 								const esbuild_cssBundle_map_exists = await cmd(file_exists_(esbuild_cssBundle_map_path))
 								const result = await cmd(postcss([
 									tailwind({
-										content: output.cssBundle_content.map(content__relative_path=>
-											join(cwd_(ctx), content__relative_path))
+										...config,
+										content: [
+											...output.cssBundle_content.map(content__relative_path=>
+												join(cwd_(ctx), content__relative_path)),
+											...(config?.content ?? [])
+										]
 									})
 								]).process(
 									await cmd(readFile(esbuild_cssBundle_path)),
