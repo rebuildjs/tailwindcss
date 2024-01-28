@@ -1,5 +1,17 @@
 # @rebuildjs/tailwindcss
 
+## 0.3.6
+
+### Patch Changes
+
+- fix: intermittent unhandled ENOENT error
+- Updated dependencies
+- Updated dependencies
+- Updated dependencies
+- Updated dependencies
+  - ctx-core@5.33.0
+  - rebuildjs@0.51.0
+
 ## 0.3.5
 
 ### Patch Changes

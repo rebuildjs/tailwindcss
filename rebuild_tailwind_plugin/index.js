@@ -1,5 +1,16 @@
 import { file_exists_, file_exists__waitfor } from 'ctx-core/fs'
-import { be, be_memo_pair_, be_sig_triple_, Cancel, memo_, nullish__none_, run, sleep, tup } from 'ctx-core/rmemo'
+import {
+	be,
+	be_memo_pair_,
+	be_sig_triple_,
+	Cancel,
+	memo_,
+	nullish__none_,
+	promise__cancel__throw,
+	run,
+	sleep,
+	tup
+} from 'ctx-core/rmemo'
 import { readFile, writeFile } from 'node:fs/promises'
 import { join } from 'node:path'
 import postcss from 'postcss'
@@ -115,12 +126,9 @@ export function rebuild_tailwind_plugin_(config) {
 								}
 							}
 							async function cmd(promise) {
-								if (cancel_()) throw new Cancel()
+								if (cancel_()) promise__cancel__throw(promise)
 								const rv = await promise
-								if (cancel_()) {
-									promise.cancel?.()
-									throw new Cancel()
-								}
+								if (cancel_()) promise__cancel__throw(promise)
 								return rv
 							}
 							function cancel_() {
