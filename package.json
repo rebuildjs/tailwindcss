@@ -1,6 +1,6 @@
 {
 	"name": "@rebuildjs/tailwindcss",
-	"version": "0.3.9",
+	"version": "0.3.10",
 	"description": "Tailwindcss integration with rebuildjs",
 	"keywords": [
 		"tailwindcss",
@@ -48,7 +48,7 @@
 		"ctx-core": "^5.35.1",
 		"esbuild": "^0.20.0",
 		"postcss": "^8.4.33",
-		"rebuildjs": "^0.52.1",
+		"rebuildjs": "^0.52.2",
 		"tailwindcss": "^3.4.1"
 	},
 	"devDependencies": {
