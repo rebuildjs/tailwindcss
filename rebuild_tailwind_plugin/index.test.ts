@@ -1,10 +1,8 @@
 import { BuildContext } from 'esbuild'
-import { readFile } from 'node:fs/promises'
-import { rm } from 'node:fs/promises'
+import { readFile, rm } from 'node:fs/promises'
 import { dirname, join } from 'node:path'
 import {
 	app_ctx,
-	rebuildjs_browser__build,
 	browser__metafile_,
 	browser__metafile__set,
 	build_id__set,
@@ -14,8 +12,9 @@ import {
 	rebuildjs__build_id__set,
 	rebuildjs__ready_,
 	rebuildjs__ready__wait,
-	rmemo__wait,
+	rebuildjs_browser__build,
 	rebuildjs_server__build,
+	rmemo__wait,
 	server__metafile_,
 	server__metafile__set
 } from 'rebuildjs/server'
