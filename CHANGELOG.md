@@ -1,5 +1,11 @@
 # @rebuildjs/tailwindcss
 
+## 0.6.2
+
+### Patch Changes
+
+- rebuild*tailwind_plugin*: fix: wait for annotated cssBundle files to be copied over to the browser directory
+
 ## 0.6.1
 
 ### Patch Changes

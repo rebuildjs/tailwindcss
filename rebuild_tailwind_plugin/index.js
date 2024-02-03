@@ -21,6 +21,7 @@ import {
 	browser__metafile__update,
 	browser__output_,
 	browser__output__relative_path_,
+	browser__relative_path_,
 	build_id_,
 	cssBundle__annotate,
 	cwd_,
@@ -88,6 +89,7 @@ export function rebuild_tailwind_plugin_(config) {
 							rebuildjs__build_id,
 							server__output__relative_path_M_middleware_ctx,
 						)=>{
+							let promise_a1 = []
 							try {
 								let server__metafile_updated
 								let browser_metafile_updated
@@ -107,6 +109,7 @@ export function rebuild_tailwind_plugin_(config) {
 								if (browser_metafile_updated) {
 									await cmd(browser__metafile__update(browser__metafile_(app_ctx)))
 								}
+								await Promise.all(promise_a1)
 								if (!server__metafile_updated && !browser_metafile_updated) {
 									rebuild_tailwind_plugin__build_id__set(app_ctx, build_id)
 								}
@@ -181,6 +184,9 @@ export function rebuild_tailwind_plugin_(config) {
 									readFile(annotated_cssBundle_path)
 										.then(buf=>'' + buf === result.css),
 								5_000))
+								promise_a1.push(file_exists__waitfor(
+									join(cwd_(app_ctx), browser__relative_path_(app_ctx), basename(annotated_cssBundle_path))
+								))
 								return metafile_updated
 							}
 							async function cmd(promise) {
