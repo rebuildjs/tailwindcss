@@ -1,5 +1,11 @@
 # @rebuildjs/tailwindcss
 
+## 0.5.1
+
+### Patch Changes
+
+- rebuildjs_tailwind**ready**wait: fix: type
+
 ## 0.5.0
 
 ### Minor Changes

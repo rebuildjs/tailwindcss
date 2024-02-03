@@ -6,5 +6,5 @@ export declare const rebuild_tailwind_plugin__build_id_:ctx__get_T<string|undefi
 export declare const rebuild_tailwind_plugin__build_id__set:ctx__set_T<string|undefined, 'app'>
 export declare const rebuildjs_tailwind__ready$_:ctx__be_T<sig_T<boolean>, 'app'>
 export declare const rebuildjs_tailwind__ready_:ctx__get_T<boolean, 'app'>
-export declare function rebuildjs_tailwind__ready(timeout?:number):Promise<boolean>
+export declare function rebuildjs_tailwind__ready__wait(timeout?:number):Promise<boolean>
 export declare function rebuild_tailwind_plugin_(config?:Config):Plugin
