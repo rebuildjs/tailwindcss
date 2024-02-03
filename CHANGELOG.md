@@ -1,5 +1,26 @@
 # @rebuildjs/tailwindcss
 
+## 0.4.0
+
+### Minor Changes
+
+- minor:
+
+      + rebuild_tailwind_plugin__ready
+      rebuild_tailwind_plugin_: fix: write seperate cssBundle for each middleware:
+      	tailwindcss purge is run on content specific to the middleware
+
+### Patch Changes
+
+- Updated dependencies
+- Updated dependencies
+- Updated dependencies
+- Updated dependencies
+- Updated dependencies
+- Updated dependencies
+  - ctx-core@5.37.0
+  - rebuildjs@0.53.0
+
 ## 0.3.21
 
 ### Patch Changes
