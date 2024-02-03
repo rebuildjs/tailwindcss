@@ -87,19 +87,27 @@ export function rebuild_tailwind_plugin_(config) {
 							server__output__relative_path_M_middleware_ctx,
 						)=>{
 							try {
+								let server__metafile_updated
+								let browser_metafile_updated
 								for (const middleware_ctx of server__output__relative_path_M_middleware_ctx.values()) {
-									await output__process(
+									server__metafile_updated = await output__process(
 										server__metafile_(middleware_ctx),
 										server__output__relative_path_(middleware_ctx),
 										server__output_(middleware_ctx))
-									await output__process(
+									browser_metafile_updated = await output__process(
 										browser__metafile_(middleware_ctx),
 										browser__output__relative_path_(middleware_ctx),
 										browser__output_(middleware_ctx))
 								}
-								await server__metafile__update(server__metafile_(app_ctx))
-								await browser__metafile__update(browser__metafile_(app_ctx))
-								rebuild_tailwind_plugin__build_id__set(app_ctx, build_id)
+								if (server__metafile_updated) {
+									await cmd(server__metafile__update(server__metafile_(app_ctx)))
+								}
+								if (browser_metafile_updated) {
+									await cmd(browser__metafile__update(browser__metafile_(app_ctx)))
+								}
+								if (!server__metafile_updated && !browser_metafile_updated) {
+									rebuild_tailwind_plugin__build_id__set(app_ctx, build_id)
+								}
 							} catch (err) {
 								if (err instanceof Cancel) return
 								throw err
@@ -113,25 +121,30 @@ export function rebuild_tailwind_plugin_(config) {
 								output__relative_path,
 								output,
 							) {
+								let metafile_updated = false
 								const cssBundle = output?.cssBundle
-								if (!cssBundle) return
+								if (!cssBundle) return metafile_updated
 								const esbuild_cssBundle = output.esbuild_cssBundle ?? cssBundle
 								const esbuild_cssBundle_path = join(cwd_(app_ctx), esbuild_cssBundle)
-								await file_exists__waitfor(
+								await cmd(file_exists__waitfor(
 									esbuild_cssBundle_path,
 									1000,
-									()=>cmd(sleep(0)))
+									()=>cmd(sleep(0))))
 								const esbuild_cssBundle_map_path = esbuild_cssBundle_path + '.map'
 								const esbuild_cssBundle_map_exists = await cmd(file_exists_(esbuild_cssBundle_map_path))
 								const output_hash =
 									basename(output__relative_path, '.js')
 										.split('-')
 										.slice(-1)[0]
+								metafile_updated = !cssBundle.includes('_' + output_hash)
 								const annotated_cssBundle =
-									cssBundle.includes('_' + output_hash)
-										? cssBundle
-										: cssBundle__annotate(cssBundle, '_' + output_hash)
+									metafile_updated
+										? cssBundle__annotate(cssBundle, '_' + output_hash)
+										: cssBundle
 								output.cssBundle = annotated_cssBundle
+								if (metafile_updated) {
+									metafile.outputs[annotated_cssBundle] = metafile.outputs[cssBundle]
+								}
 								const annotated_cssBundle_path = join(cwd_(app_ctx), annotated_cssBundle)
 								const result = await cmd(postcss([
 									tailwind({
@@ -155,8 +168,18 @@ export function rebuild_tailwind_plugin_(config) {
 									}))
 								await cmd(writeFile(annotated_cssBundle_path, result.css))
 								if (result.map) {
-									await cmd(writeFile(annotated_cssBundle_path + '.map', JSON.stringify(result.map)))
+									const map_json = JSON.stringify(result.map)
+									await cmd(writeFile(annotated_cssBundle_path + '.map', map_json))
+									await cmd(file_exists__waitfor(()=>
+										readFile(annotated_cssBundle_path + '.map')
+											.then(buf=>'' + buf === map_json),
+									5_000))
 								}
+								await cmd(file_exists__waitfor(()=>
+									readFile(annotated_cssBundle_path)
+										.then(buf=>'' + buf === result.css),
+								5_000))
+								return metafile_updated
 							}
 							async function cmd(promise) {
 								if (cancel_()) promise__cancel__throw(promise)

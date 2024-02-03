@@ -1,5 +1,14 @@
 # @rebuildjs/tailwindcss
 
+## 0.4.1
+
+### Patch Changes
+
+- patch: tailwind build fixes:
+
+      fix: link tailwindcss server cssBundle to browser
+      fix: infinite reactive rewrite of metafiles
+
 ## 0.4.0
 
 ### Minor Changes
