@@ -1,5 +1,15 @@
 # @rebuildjs/tailwindcss
 
+## 0.5.0
+
+### Minor Changes
+
+- minor:
+
+      rebuild_tailwind_plugin__ready→rebuildjs_tailwind__ready__wait
+      rebuild_tailwind_plugin__ready$_→rebuildjs_tailwind__ready$_
+      rebuild_tailwind_plugin__ready_→rebuildjs_tailwind__ready_
+
 ## 0.4.1
 
 ### Patch Changes

@@ -26,8 +26,8 @@ import {
 	rebuild_tailwind_plugin__build_id$_,
 	rebuild_tailwind_plugin__build_id_,
 	rebuild_tailwind_plugin__build_id__set,
-	rebuild_tailwind_plugin__ready$_,
-	rebuild_tailwind_plugin__ready_
+	rebuildjs_tailwind__ready$_,
+	rebuildjs_tailwind__ready_
 } from './index.js'
 test.after.each(()=>{
 	app_ctx.s.app.clear()
@@ -44,29 +44,29 @@ test('rebuild_tailwind_plugin__build_id', ()=>{
 	throws(()=>rebuild_tailwind_plugin__build_id_(ctx_()))
 })
 test('rebuild_tailwind_plugin__ready', ()=>{
-	equal(rebuild_tailwind_plugin__ready$_(app_ctx)(), false)
-	equal(rebuild_tailwind_plugin__ready_(app_ctx), false)
+	equal(rebuildjs_tailwind__ready$_(app_ctx)(), false)
+	equal(rebuildjs_tailwind__ready_(app_ctx), false)
 	const build_id = server__metafile0.build_id!
 	build_id__set(app_ctx, build_id)
 	equal(rebuildjs__ready_(app_ctx), false)
-	equal(rebuild_tailwind_plugin__ready$_(app_ctx)(), false)
-	equal(rebuild_tailwind_plugin__ready_(app_ctx), false)
+	equal(rebuildjs_tailwind__ready$_(app_ctx)(), false)
+	equal(rebuildjs_tailwind__ready_(app_ctx), false)
 	server__metafile__set(app_ctx, server__metafile0)
 	equal(rebuildjs__ready_(app_ctx), false)
-	equal(rebuild_tailwind_plugin__ready$_(app_ctx)(), false)
-	equal(rebuild_tailwind_plugin__ready_(app_ctx), false)
+	equal(rebuildjs_tailwind__ready$_(app_ctx)(), false)
+	equal(rebuildjs_tailwind__ready_(app_ctx), false)
 	browser__metafile__set(app_ctx, browser__metafile0)
 	equal(rebuildjs__ready_(app_ctx), false)
-	equal(rebuild_tailwind_plugin__ready$_(app_ctx)(), false)
-	equal(rebuild_tailwind_plugin__ready_(app_ctx), false)
+	equal(rebuildjs_tailwind__ready$_(app_ctx)(), false)
+	equal(rebuildjs_tailwind__ready_(app_ctx), false)
 	rebuildjs__build_id__set(app_ctx, build_id)
 	equal(rebuildjs__ready_(app_ctx), true)
-	equal(rebuild_tailwind_plugin__ready$_(app_ctx)(), false)
-	equal(rebuild_tailwind_plugin__ready_(app_ctx), false)
+	equal(rebuildjs_tailwind__ready$_(app_ctx)(), false)
+	equal(rebuildjs_tailwind__ready_(app_ctx), false)
 	rebuild_tailwind_plugin__build_id__set(app_ctx, build_id)
 	equal(rebuildjs__ready_(app_ctx), true)
-	equal(rebuild_tailwind_plugin__ready$_(app_ctx)(), true)
-	equal(rebuild_tailwind_plugin__ready_(app_ctx), true)
+	equal(rebuildjs_tailwind__ready$_(app_ctx)(), true)
+	equal(rebuildjs_tailwind__ready_(app_ctx), true)
 })
 test('rebuild_tailwind_plugin_', async ()=>{
 	const test_dir = dirname(new URL(import.meta.url).pathname)
@@ -100,7 +100,7 @@ test('rebuild_tailwind_plugin_', async ()=>{
 		equal(typeof browser__entryPoint__output.esbuild_cssBundle, 'string')
 		equal(server__entryPoint__output.cssBundle !== server__entryPoint__output.esbuild_cssBundle, true)
 		equal(browser__entryPoint__output.cssBundle !== browser__entryPoint__output.esbuild_cssBundle, true)
-		await rmemo__wait(rebuild_tailwind_plugin__ready$_(app_ctx), $=>$, 2000)
+		await rmemo__wait(rebuildjs_tailwind__ready$_(app_ctx), $=>$, 2000)
 		const cssBundle_text =
 			await readFile(join(cwd_(app_ctx), server__entryPoint__output.cssBundle!))
 				.then(buf=>buf + '')

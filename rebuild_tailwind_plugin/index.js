@@ -41,17 +41,17 @@ export const [
 	()=>undefined,
 	{ id: 'rebuild_tailwind_plugin__build_id', ns: 'app' })
 export const [
-	rebuild_tailwind_plugin__ready$_,
-	rebuild_tailwind_plugin__ready_,
+	rebuildjs_tailwind__ready$_,
+	rebuildjs_tailwind__ready_,
 ] = be_memo_pair_(ctx=>
 	!!(
 		build_id_(ctx)
 			&& rebuildjs__ready_(ctx)
 			&& build_id_(ctx) === rebuild_tailwind_plugin__build_id_(ctx)),
-{ id: 'rebuild_tailwind_plugin__ready', ns: 'app' })
-export function rebuild_tailwind_plugin__ready(timeout) {
+{ id: 'rebuildjs_tailwind__ready', ns: 'app' })
+export function rebuildjs_tailwind__ready__wait(timeout) {
 	return rmemo__wait(
-		rebuild_tailwind_plugin__ready$_(app_ctx),
+		rebuildjs_tailwind__ready$_(app_ctx),
 		ready=>ready,
 		timeout ?? 10_000)
 }
