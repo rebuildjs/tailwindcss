@@ -1,5 +1,19 @@
 # @rebuildjs/tailwindcss
 
+## 0.6.0
+
+### Minor Changes
+
+- rebuild*tailwind_plugin*: hook into rebuildjs\_\_ready to allow apps to wait for rebuild_tailwind_plugin to complete:
+
+      ∋ rebuildjs__ready__add(rebuild_tailwind__ready_)
+      ∋ rebuildjs_core__ready_
+
+### Patch Changes
+
+- Updated dependencies
+  - rebuildjs@0.54.0
+
 ## 0.5.1
 
 ### Patch Changes

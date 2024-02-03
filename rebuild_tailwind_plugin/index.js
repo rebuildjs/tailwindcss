@@ -25,7 +25,8 @@ import {
 	cssBundle__annotate,
 	cwd_,
 	rebuildjs__build_id_,
-	rebuildjs__ready_,
+	rebuildjs__ready__add,
+	rebuildjs_core__ready_,
 	server__metafile_,
 	server__metafile__update,
 	server__output_,
@@ -46,7 +47,7 @@ export const [
 ] = be_memo_pair_(ctx=>
 	!!(
 		build_id_(ctx)
-			&& rebuildjs__ready_(ctx)
+			&& rebuildjs_core__ready_(ctx)
 			&& build_id_(ctx) === rebuild_tailwind_plugin__build_id_(ctx)),
 { id: 'rebuildjs_tailwind__ready', ns: 'app' })
 export function rebuildjs_tailwind__ready__wait(timeout) {
@@ -58,6 +59,7 @@ export function rebuildjs_tailwind__ready__wait(timeout) {
 export function rebuild_tailwind_plugin_(config) {
 	return { name: 'rebuild_tailwind_plugin', setup: setup_() }
 	function setup_() {
+		rebuildjs__ready__add(rebuildjs_tailwind__ready_)
 		/**
 		 * @param {import('esbuild').PluginBuild}build
 		 */
@@ -76,7 +78,7 @@ export function rebuild_tailwind_plugin_(config) {
 					r()
 					return tailwind__build$
 					function r() {
-						if (!rebuildjs__ready_(app_ctx)) return
+						if (!rebuildjs_core__ready_(app_ctx)) return
 						nullish__none_(tup(
 							build_id_(app_ctx),
 							rebuildjs__build_id_(app_ctx),
