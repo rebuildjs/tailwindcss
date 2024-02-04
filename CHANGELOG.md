@@ -1,5 +1,18 @@
 # @rebuildjs/tailwindcss
 
+## 0.7.0
+
+### Minor Changes
+
+- minor:
+
+      rebuild_tailwind_plugin_: config?:rebuild_tailwind_plugin__config_T:
+      	enable postcss plugins to be configured using the .postcss_plugin_a1_ prop
+      	move tailwindcss config into .tailwindcss_config prop
+      + rebuild_tailwind_plugin__config_T:
+      	+ postcss_plugin_a1_?:(tailwindcss_plugin:Plugin)=>AcceptedPlugin[]
+      	+ tailwindcss_config?:Config
+
 ## 0.6.3
 
 ### Patch Changes

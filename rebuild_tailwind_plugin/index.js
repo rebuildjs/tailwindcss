@@ -57,6 +57,11 @@ export function rebuildjs_tailwind__ready__wait(timeout) {
 		ready=>ready,
 		timeout ?? 10_000)
 }
+/**
+ * @param {rebuild_tailwind_plugin__config_T}[config]
+ * @returns {{name: string, setup: setup}}
+ * @private
+ */
 export function rebuild_tailwind_plugin_(config) {
 	return { name: 'rebuild_tailwind_plugin', setup: setup_() }
 	function setup_() {
@@ -151,26 +156,29 @@ export function rebuild_tailwind_plugin_(config) {
 									metafile.outputs[annotated_cssBundle] = metafile.outputs[cssBundle]
 								}
 								const annotated_cssBundle_path = join(cwd_(app_ctx), annotated_cssBundle)
-								const result = await cmd(postcss([
-									tailwind({
-										...config,
-										content: [
-											...output.cssBundle_content.map(content__relative_path=>
-												join(cwd_(app_ctx), content__relative_path)),
-											...(config?.content ?? [])
-										]
-									})
-								]).process(
-									await cmd(readFile(esbuild_cssBundle_path)),
-									{
-										from: esbuild_cssBundle_path,
-										to: join(cwd_(app_ctx), cssBundle),
-										map: esbuild_cssBundle_map_exists
-											? {
-												prev: JSON.parse(await cmd(readFile(esbuild_cssBundle_path + '.map')))
-											}
-											: false,
-									}))
+								const tailwind_instance = tailwind({
+									...config,
+									content: [
+										...output.cssBundle_content.map(content__relative_path=>
+											join(cwd_(app_ctx), content__relative_path)),
+										...(config?.content ?? [])
+									]
+								})
+								const result = await cmd(
+									postcss(
+										config?.postcss_plugin_a1_?.(tailwind_instance)
+										?? [tailwind_instance]
+									).process(
+										await cmd(readFile(esbuild_cssBundle_path)),
+										{
+											from: esbuild_cssBundle_path,
+											to: join(cwd_(app_ctx), cssBundle),
+											map: esbuild_cssBundle_map_exists
+												? {
+													prev: JSON.parse(await cmd(readFile(esbuild_cssBundle_path + '.map')))
+												}
+												: false,
+										}))
 								await cmd(writeFile(annotated_cssBundle_path, result.css))
 								if (result.map) {
 									const map_json = JSON.stringify(result.map)
