@@ -1,5 +1,11 @@
 # @rebuildjs/tailwindcss
 
+## 0.7.3
+
+### Patch Changes
+
+- postcss: ^8.4.33 -> ^8.4.34
+
 ## 0.7.2
 
 ### Patch Changes

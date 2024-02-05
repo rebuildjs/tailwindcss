@@ -157,7 +157,7 @@ export function rebuild_tailwind_plugin_(config) {
 								}
 								const annotated_cssBundle_path = join(cwd_(app_ctx), annotated_cssBundle)
 								const tailwind_instance = tailwind({
-									...config.tailwindcss_config,
+									...config?.tailwindcss_config,
 									content: [
 										...output.cssBundle_content.map(content__relative_path=>
 											join(cwd_(app_ctx), content__relative_path)),
