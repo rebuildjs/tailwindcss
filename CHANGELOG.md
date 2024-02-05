@@ -1,5 +1,11 @@
 # @rebuildjs/tailwindcss
 
+## 0.7.2
+
+### Patch Changes
+
+- rebuild*tailwind_plugin*: fix: use tailwindcss_config config prop
+
 ## 0.7.1
 
 ### Patch Changes
