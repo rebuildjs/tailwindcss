@@ -156,6 +156,7 @@ export function rebuild_tailwind_plugin_(config) {
 									metafile.outputs[annotated_cssBundle] = metafile.outputs[cssBundle]
 								}
 								const annotated_cssBundle_path = join(cwd_(app_ctx), annotated_cssBundle)
+								const annotated_cssBundle_map_path = join(cwd_(app_ctx), annotated_cssBundle) + '.map'
 								const tailwind_instance = tailwind({
 									...config?.tailwindcss_config,
 									content: [
@@ -175,16 +176,16 @@ export function rebuild_tailwind_plugin_(config) {
 											to: join(cwd_(app_ctx), cssBundle),
 											map: esbuild_cssBundle_map_exists
 												? {
-													prev: JSON.parse(await cmd(readFile(esbuild_cssBundle_path + '.map')))
+													prev: JSON.parse(await cmd(readFile(esbuild_cssBundle_map_path)))
 												}
 												: false,
 										}))
 								await cmd(writeFile(annotated_cssBundle_path, result.css))
 								if (result.map) {
 									const map_json = JSON.stringify(result.map)
-									await cmd(writeFile(annotated_cssBundle_path + '.map', map_json))
+									await cmd(writeFile(annotated_cssBundle_map_path, map_json))
 									await cmd(file_exists__waitfor(()=>
-										readFile(annotated_cssBundle_path + '.map')
+										readFile(annotated_cssBundle_map_path)
 											.then(buf=>'' + buf === map_json),
 									5_000))
 								}
