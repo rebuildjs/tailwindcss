@@ -1,5 +1,24 @@
 # @rebuildjs/tailwindcss
 
+## 0.8.0
+
+### Minor Changes
+
+- minor: fix: link annotated .map.css files from server directory to browser directory:
+
+      fix: + metafile.outputs[annotated_cssBundle + '.map']
+      rebuildjs_tailwind__ready: ∋ rebuildjs__esbuild__done_
+      rebuild_tailwind_plugin_:
+      	∋ rebuildjs__ready__add(rebuildjs_tailwind__ready$_)
+      	∋ rebuildjs__esbuild__done__wait
+      .map.css: fix: retry on intermittent JSON SyntaxError
+      + file_json__parse__wait
+
+### Patch Changes
+
+- Updated dependencies
+  - rebuildjs@0.56.0
+
 ## 0.7.5
 
 ### Patch Changes

@@ -9,14 +9,15 @@ import {
 	ctx_,
 	cwd_,
 	cwd__set,
-	rebuildjs__build_id__set,
-	rebuildjs_core__ready_,
+	rebuildjs__esbuild__build_id__set,
+	rebuildjs__esbuild__done_,
+	rebuildjs__ready__add__ready$__a1_,
 	rebuildjs__ready__wait,
 	rebuildjs_browser__build,
 	rebuildjs_server__build,
 	rmemo__wait,
 	server__metafile_,
-	server__metafile__set, rebuildjs__ready__add__ready__a1_
+	server__metafile__set
 } from 'rebuildjs/server'
 import { test } from 'uvu'
 import { equal, throws } from 'uvu/assert'
@@ -48,23 +49,23 @@ test('rebuild_tailwind_plugin__ready', ()=>{
 	equal(rebuildjs_tailwind__ready_(app_ctx), false)
 	const build_id = server__metafile0.build_id!
 	build_id__set(app_ctx, build_id)
-	equal(rebuildjs_core__ready_(app_ctx), false)
+	equal(rebuildjs__esbuild__done_(app_ctx), false)
 	equal(rebuildjs_tailwind__ready$_(app_ctx)(), false)
 	equal(rebuildjs_tailwind__ready_(app_ctx), false)
 	server__metafile__set(app_ctx, server__metafile0)
-	equal(rebuildjs_core__ready_(app_ctx), false)
+	equal(rebuildjs__esbuild__done_(app_ctx), false)
 	equal(rebuildjs_tailwind__ready$_(app_ctx)(), false)
 	equal(rebuildjs_tailwind__ready_(app_ctx), false)
 	browser__metafile__set(app_ctx, browser__metafile0)
-	equal(rebuildjs_core__ready_(app_ctx), false)
+	equal(rebuildjs__esbuild__done_(app_ctx), false)
 	equal(rebuildjs_tailwind__ready$_(app_ctx)(), false)
 	equal(rebuildjs_tailwind__ready_(app_ctx), false)
-	rebuildjs__build_id__set(app_ctx, build_id)
-	equal(rebuildjs_core__ready_(app_ctx), true)
+	rebuildjs__esbuild__build_id__set(app_ctx, build_id)
+	equal(rebuildjs__esbuild__done_(app_ctx), true)
 	equal(rebuildjs_tailwind__ready$_(app_ctx)(), false)
 	equal(rebuildjs_tailwind__ready_(app_ctx), false)
 	rebuild_tailwind_plugin__build_id__set(app_ctx, build_id)
-	equal(rebuildjs_core__ready_(app_ctx), true)
+	equal(rebuildjs__esbuild__done_(app_ctx), true)
 	equal(rebuildjs_tailwind__ready$_(app_ctx)(), true)
 	equal(rebuildjs_tailwind__ready_(app_ctx), true)
 })
@@ -77,7 +78,7 @@ test('rebuild_tailwind_plugin_|default', async ()=>{
 	let browser__build_context:BuildContext|undefined = undefined
 	try {
 		const rebuild_tailwind_plugin = rebuild_tailwind_plugin_()
-		equal(rebuildjs__ready__add__ready__a1_(app_ctx), [rebuildjs_tailwind__ready_])
+		equal(rebuildjs__ready__add__ready$__a1_(app_ctx), [rebuildjs_tailwind__ready$_])
 		server__build_context = await rebuildjs_server__build({ plugins: [rebuild_tailwind_plugin] })
 		browser__build_context = await rebuildjs_browser__build({ plugins: [rebuild_tailwind_plugin] })
 		await rebuildjs__ready__wait()
@@ -141,7 +142,7 @@ test('rebuild_tailwind_plugin_|tailwindcss_config', async ()=>{
 				content: []
 			}
 		})
-		equal(rebuildjs__ready__add__ready__a1_(app_ctx), [rebuildjs_tailwind__ready_])
+		equal(rebuildjs__ready__add__ready$__a1_(app_ctx), [rebuildjs_tailwind__ready$_])
 		server__build_context = await rebuildjs_server__build({ plugins: [rebuild_tailwind_plugin] })
 		browser__build_context = await rebuildjs_browser__build({ plugins: [rebuild_tailwind_plugin] })
 		await rebuildjs__ready__wait()

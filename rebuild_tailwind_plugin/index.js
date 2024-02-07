@@ -21,13 +21,13 @@ import {
 	browser__metafile__update,
 	browser__output_,
 	browser__output__relative_path_,
-	browser__relative_path_,
 	build_id_,
 	cssBundle__annotate,
 	cwd_,
-	rebuildjs__build_id_,
+	rebuildjs__esbuild__build_id_,
 	rebuildjs__ready__add,
-	rebuildjs_core__ready_,
+	rebuildjs__esbuild__done_,
+	rebuildjs__esbuild__done__wait,
 	server__metafile_,
 	server__metafile__update,
 	server__output_,
@@ -48,7 +48,7 @@ export const [
 ] = be_memo_pair_(ctx=>
 	!!(
 		build_id_(ctx)
-			&& rebuildjs_core__ready_(ctx)
+			&& rebuildjs__esbuild__done_(ctx)
 			&& build_id_(ctx) === rebuild_tailwind_plugin__build_id_(ctx)),
 { id: 'rebuildjs_tailwind__ready', ns: 'app' })
 export function rebuildjs_tailwind__ready__wait(timeout) {
@@ -65,14 +65,14 @@ export function rebuildjs_tailwind__ready__wait(timeout) {
 export function rebuild_tailwind_plugin_(config) {
 	return { name: 'rebuild_tailwind_plugin', setup: setup_() }
 	function setup_() {
-		rebuildjs__ready__add(rebuildjs_tailwind__ready_)
+		rebuildjs__ready__add(rebuildjs_tailwind__ready$_)
 		/**
 		 * @param {import('esbuild').PluginBuild}build
 		 */
 		const setup = (build)=>{
 			build.onEnd(result=>{
 				if (result.errors.length) {
-					throw new Error(`Build errors: ${result.errors.length} errors`)
+					throw Error('Build errors: ' + result.errors.length + ' errors')
 				}
 			})
 		}
@@ -84,20 +84,20 @@ export function rebuild_tailwind_plugin_(config) {
 					r()
 					return tailwind__build$
 					function r() {
-						if (!rebuildjs_core__ready_(app_ctx)) return
+						if (!rebuildjs__esbuild__done_(app_ctx)) return
 						nullish__none_(tup(
 							build_id_(app_ctx),
-							rebuildjs__build_id_(app_ctx),
+							rebuildjs__esbuild__build_id_(app_ctx),
 							server__output__relative_path_M_middleware_ctx_(app_ctx),
 						), async (
 							build_id,
 							rebuildjs__build_id,
 							server__output__relative_path_M_middleware_ctx,
 						)=>{
-							let promise_a1 = []
 							try {
 								let server__metafile_updated
 								let browser_metafile_updated
+								await rebuildjs__esbuild__done__wait()
 								for (const middleware_ctx of server__output__relative_path_M_middleware_ctx.values()) {
 									server__metafile_updated = await output__process(
 										server__metafile_(middleware_ctx),
@@ -114,7 +114,6 @@ export function rebuild_tailwind_plugin_(config) {
 								if (browser_metafile_updated) {
 									await cmd(browser__metafile__update(browser__metafile_(app_ctx)))
 								}
-								await Promise.all(promise_a1)
 								if (!server__metafile_updated && !browser_metafile_updated) {
 									rebuild_tailwind_plugin__build_id__set(app_ctx, build_id)
 								}
@@ -154,6 +153,7 @@ export function rebuild_tailwind_plugin_(config) {
 								output.cssBundle = annotated_cssBundle
 								if (metafile_updated) {
 									metafile.outputs[annotated_cssBundle] = metafile.outputs[cssBundle]
+									metafile.outputs[annotated_cssBundle + '.map'] = metafile.outputs[cssBundle + '.map']
 								}
 								const annotated_cssBundle_path = join(cwd_(app_ctx), annotated_cssBundle)
 								const annotated_cssBundle_map_path = join(cwd_(app_ctx), annotated_cssBundle) + '.map'
@@ -176,13 +176,13 @@ export function rebuild_tailwind_plugin_(config) {
 											to: join(cwd_(app_ctx), cssBundle),
 											map: esbuild_cssBundle_map_exists
 												? {
-													prev: JSON.parse(await cmd(readFile(esbuild_cssBundle_map_path)))
+													prev: await file_json__parse__wait(esbuild_cssBundle_map_path)
 												}
 												: false,
 										}))
 								await cmd(writeFile(annotated_cssBundle_path, result.css))
-								if (result.map) {
-									const map_json = JSON.stringify(result.map)
+								const map_json = result.map ? JSON.stringify(result.map) : null
+								if (map_json) {
 									await cmd(writeFile(annotated_cssBundle_map_path, map_json))
 									await cmd(file_exists__waitfor(()=>
 										readFile(annotated_cssBundle_map_path)
@@ -193,10 +193,20 @@ export function rebuild_tailwind_plugin_(config) {
 									readFile(annotated_cssBundle_path)
 										.then(buf=>'' + buf === result.css),
 								5_000))
-								promise_a1.push(file_exists__waitfor(
-									join(cwd_(app_ctx), browser__relative_path_(app_ctx), basename(annotated_cssBundle_path))
-								))
 								return metafile_updated
+							}
+							async function file_json__parse__wait(path) {
+								// eslint-disable-next-line no-constant-condition
+								while (1) {
+									try {
+										return JSON.parse(
+											await file_exists__waitfor(()=>
+												cmd(readFile(path))))
+									} catch (err) {
+										if (err.name === 'SyntaxError') continue
+										throw err
+									}
+								}
 							}
 							async function cmd(promise) {
 								if (cancel_()) promise__cancel__throw(promise)
@@ -207,7 +217,7 @@ export function rebuild_tailwind_plugin_(config) {
 							function cancel_() {
 								return (
 									build_id_(app_ctx) !== build_id
-									|| rebuildjs__build_id_(app_ctx) !== rebuildjs__build_id
+									|| rebuildjs__esbuild__build_id_(app_ctx) !== rebuildjs__build_id
 									|| server__output__relative_path_M_middleware_ctx_(
 										app_ctx) !== server__output__relative_path_M_middleware_ctx
 								)
