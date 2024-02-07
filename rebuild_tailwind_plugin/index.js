@@ -145,18 +145,6 @@ export function rebuild_tailwind_plugin_(config) {
 									basename(output__relative_path, '.js')
 										.split('-')
 										.slice(-1)[0]
-								metafile_updated = !cssBundle.includes('_' + output_hash)
-								const annotated_cssBundle =
-									metafile_updated
-										? cssBundle__annotate(cssBundle, '_' + output_hash)
-										: cssBundle
-								output.cssBundle = annotated_cssBundle
-								if (metafile_updated) {
-									metafile.outputs[annotated_cssBundle] = metafile.outputs[cssBundle]
-									metafile.outputs[annotated_cssBundle + '.map'] = metafile.outputs[cssBundle + '.map']
-								}
-								const annotated_cssBundle_path = join(cwd_(app_ctx), annotated_cssBundle)
-								const annotated_cssBundle_map_path = join(cwd_(app_ctx), annotated_cssBundle) + '.map'
 								const tailwind_instance = tailwind({
 									...config?.tailwindcss_config,
 									content: [
@@ -181,6 +169,13 @@ export function rebuild_tailwind_plugin_(config) {
 													}
 													: false,
 											})))
+								metafile_updated = !cssBundle.includes('_' + output_hash)
+								const annotated_cssBundle =
+									metafile_updated
+										? cssBundle__annotate(cssBundle, '_' + output_hash)
+										: cssBundle
+								const annotated_cssBundle_path = join(cwd_(app_ctx), annotated_cssBundle)
+								const annotated_cssBundle_map_path = join(cwd_(app_ctx), annotated_cssBundle) + '.map'
 								await cmd(writeFile(annotated_cssBundle_path, result.css))
 								const map_json = result.map ? JSON.stringify(result.map) : null
 								if (map_json) {
@@ -194,6 +189,11 @@ export function rebuild_tailwind_plugin_(config) {
 									cmd(readFile(annotated_cssBundle_path))
 										.then(buf=>'' + buf === result.css),
 								5_000)
+								output.cssBundle = annotated_cssBundle
+								if (metafile_updated) {
+									metafile.outputs[annotated_cssBundle] = metafile.outputs[cssBundle]
+									metafile.outputs[annotated_cssBundle + '.map'] = metafile.outputs[cssBundle + '.map']
+								}
 								return metafile_updated
 							}
 							async function file_json__parse__wait(path) {

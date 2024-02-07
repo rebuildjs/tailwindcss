@@ -1,5 +1,17 @@
 # @rebuildjs/tailwindcss
 
+## 0.8.3
+
+### Patch Changes
+
+- rebuild*tailwind_plugin*: tailwind**build$\_: output**process: update output after writing annotated cssBunde:
+
+      metafile.outputs[annotated_cssBundle]
+      metafile.outputs[annotated_cssBundle + '.map']
+
+- Updated dependencies
+  - rebuildjs@0.56.1
+
 ## 0.8.2
 
 ### Patch Changes
