@@ -165,35 +165,35 @@ export function rebuild_tailwind_plugin_(config) {
 										...(config?.content ?? [])
 									]
 								})
-								const result = await cmd(
-									postcss(
-										config?.postcss_plugin_a1_?.(tailwind_instance)
-										?? [tailwind_instance]
-									).process(
-										await file_exists__waitfor(()=>
-											cmd(readFile(esbuild_cssBundle_path))),
-										{
-											from: esbuild_cssBundle_path,
-											to: join(cwd_(app_ctx), cssBundle),
-											map: esbuild_cssBundle_map_exists
-												? {
-													prev: await file_json__parse__wait(esbuild_cssBundle_map_path)
-												}
-												: false,
-										}))
+								const result = await file_exists__waitfor(
+									async ()=>cmd(
+										postcss(
+											config?.postcss_plugin_a1_?.(tailwind_instance)
+											?? [tailwind_instance]
+										).process(
+											await readFile(esbuild_cssBundle_path),
+											{
+												from: esbuild_cssBundle_path,
+												to: join(cwd_(app_ctx), cssBundle),
+												map: esbuild_cssBundle_map_exists
+													? {
+														prev: await file_json__parse__wait(esbuild_cssBundle_map_path)
+													}
+													: false,
+											})))
 								await cmd(writeFile(annotated_cssBundle_path, result.css))
 								const map_json = result.map ? JSON.stringify(result.map) : null
 								if (map_json) {
 									await cmd(writeFile(annotated_cssBundle_map_path, map_json))
-									await cmd(file_exists__waitfor(()=>
-										readFile(annotated_cssBundle_map_path)
+									await file_exists__waitfor(()=>
+										cmd(readFile(annotated_cssBundle_map_path))
 											.then(buf=>'' + buf === map_json),
-									5_000))
+									5_000)
 								}
-								await cmd(file_exists__waitfor(()=>
-									readFile(annotated_cssBundle_path)
+								await file_exists__waitfor(()=>
+									cmd(readFile(annotated_cssBundle_path))
 										.then(buf=>'' + buf === result.css),
-								5_000))
+								5_000)
 								return metafile_updated
 							}
 							async function file_json__parse__wait(path) {

@@ -1,5 +1,11 @@
 # @rebuildjs/tailwindcss
 
+## 0.8.2
+
+### Patch Changes
+
+- rebuild*tailwind_plugin*: tailwind**build$\_: output**process: fix: intermittent ENOENT with calling tailwind function
+
 ## 0.8.1
 
 ### Patch Changes
