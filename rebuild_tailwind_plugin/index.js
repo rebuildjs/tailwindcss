@@ -170,7 +170,8 @@ export function rebuild_tailwind_plugin_(config) {
 										config?.postcss_plugin_a1_?.(tailwind_instance)
 										?? [tailwind_instance]
 									).process(
-										await cmd(readFile(esbuild_cssBundle_path)),
+										await file_exists__waitfor(()=>
+											cmd(readFile(esbuild_cssBundle_path))),
 										{
 											from: esbuild_cssBundle_path,
 											to: join(cwd_(app_ctx), cssBundle),

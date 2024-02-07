@@ -1,5 +1,11 @@
 # @rebuildjs/tailwindcss
 
+## 0.8.1
+
+### Patch Changes
+
+- tailwind**build$\_: tailwind**build$\_: output\_\_process: fix: intermittent ENOENT with readFile(esbuild_cssBundle_path)
+
 ## 0.8.0
 
 ### Minor Changes
