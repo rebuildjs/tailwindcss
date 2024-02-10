@@ -1,5 +1,11 @@
 # @rebuildjs/tailwindcss
 
+## 0.8.16
+
+### Patch Changes
+
+- rebuild*tailwind_plugin\_\_config_T: postcss_plugin_a1*: fix: argument type: (tailwindcss_plugin:AcceptedPlugin)=>AcceptedPlugin[]
+
 ## 0.8.15
 
 ### Patch Changes

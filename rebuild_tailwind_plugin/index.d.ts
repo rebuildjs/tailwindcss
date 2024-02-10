@@ -10,6 +10,6 @@ export declare const rebuildjs_tailwind__ready_:ctx__get_T<boolean, 'app'>
 export declare function rebuildjs_tailwind__ready__wait(timeout?:number):Promise<boolean>
 export declare function rebuild_tailwind_plugin_(config?:rebuild_tailwind_plugin__config_T):Plugin
 export type rebuild_tailwind_plugin__config_T = {
-	postcss_plugin_a1_?:(tailwindcss_plugin:Plugin)=>AcceptedPlugin[]
+	postcss_plugin_a1_?:(tailwindcss_plugin:AcceptedPlugin)=>AcceptedPlugin[]
 	tailwindcss_config?:Config
 }
