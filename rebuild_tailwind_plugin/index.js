@@ -25,9 +25,9 @@ import {
 	cssBundle__annotate,
 	cwd_,
 	rebuildjs__esbuild__build_id_,
-	rebuildjs__ready__add,
 	rebuildjs__esbuild__done_,
 	rebuildjs__esbuild__done__wait,
+	rebuildjs__ready__add,
 	server__metafile_,
 	server__metafile__update,
 	server__output_,
@@ -79,8 +79,9 @@ export function rebuild_tailwind_plugin_(config) {
 		setup.tailwind__build$ = tailwind__build$_()
 		return setup
 		function tailwind__build$_() {
-			return be(app_ctx, app_ctx=>
-				run(memo_(tailwind__build$=>{
+			return be(app_ctx, app_ctx=>{
+				let update_promise
+				return run(memo_(tailwind__build$=>{
 					r()
 					return tailwind__build$
 					function r() {
@@ -96,25 +97,31 @@ export function rebuild_tailwind_plugin_(config) {
 						)=>{
 							try {
 								let server__metafile_updated
-								let browser_metafile_updated
-								await rebuildjs__esbuild__done__wait()
+								let browser__metafile_updated
+								await update_promise
+								await cmd(rebuildjs__esbuild__done__wait())
+								const _server__metafile = server__metafile_(app_ctx)
+								const _browser__metafile = browser__metafile_(app_ctx)
 								for (const middleware_ctx of server__output__relative_path_M_middleware_ctx.values()) {
-									server__metafile_updated = await output__process(
-										server__metafile_(middleware_ctx),
+									server__metafile_updated ||= await output__process(
+										_server__metafile,
 										server__output__relative_path_(middleware_ctx),
 										server__output_(middleware_ctx))
-									browser_metafile_updated = await output__process(
-										browser__metafile_(middleware_ctx),
+									browser__metafile_updated ||= await output__process(
+										_browser__metafile,
 										browser__output__relative_path_(middleware_ctx),
 										browser__output_(middleware_ctx))
 								}
+								let update_promise_a1 = []
 								if (server__metafile_updated) {
-									await cmd(server__metafile__update(server__metafile_(app_ctx)))
+									update_promise_a1.push(server__metafile__update(_server__metafile))
 								}
-								if (browser_metafile_updated) {
-									await cmd(browser__metafile__update(browser__metafile_(app_ctx)))
+								if (browser__metafile_updated) {
+									update_promise_a1.push(browser__metafile__update(_browser__metafile))
 								}
-								if (!server__metafile_updated && !browser_metafile_updated) {
+								if (update_promise_a1.length) {
+									update_promise = Promise.all(update_promise_a1)
+								} else {
 									rebuild_tailwind_plugin__build_id__set(app_ctx, build_id)
 								}
 							} catch (err) {
@@ -225,7 +232,8 @@ export function rebuild_tailwind_plugin_(config) {
 							}
 						})
 					}
-				})), { id: 'tailwind__build$', ns: 'app' })
+				}))
+			}, { id: 'tailwind__build$', ns: 'app' })
 		}
 	}
 }

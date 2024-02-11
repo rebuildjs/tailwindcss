@@ -1,5 +1,13 @@
 # @rebuildjs/tailwindcss
 
+## 0.8.28
+
+### Patch Changes
+
+- rebuild*tailwind_plugin*: tailwind\__build$_: fix: concurrency error: in-memory metafile state is updated but not persisted
+- Updated dependencies
+  - ctx-core@6.1.3
+
 ## 0.8.27
 
 ### Patch Changes
