@@ -1,5 +1,15 @@
 # @rebuildjs/tailwindcss
 
+## 0.8.38
+
+### Patch Changes
+
+- ctx-core: ^6.3.0 -> ^6.4.0
+- Updated dependencies
+- Updated dependencies
+  - rebuildjs@0.62.1
+  - ctx-core@6.4.1
+
 ## 0.8.37
 
 ### Patch Changes
