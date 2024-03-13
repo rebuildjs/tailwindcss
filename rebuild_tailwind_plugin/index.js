@@ -80,7 +80,6 @@ export function rebuild_tailwind_plugin_(config) {
 		return setup
 		function tailwind__build$_() {
 			return be(app_ctx, app_ctx=>{
-				let update_promise
 				return run(memo_(tailwind__build$=>{
 					r()
 					return tailwind__build$
@@ -98,7 +97,6 @@ export function rebuild_tailwind_plugin_(config) {
 							try {
 								let server__metafile_updated
 								let browser__metafile_updated
-								await update_promise
 								await cmd(rebuildjs__esbuild__done__wait())
 								const _server__metafile = server__metafile_(app_ctx)
 								const _browser__metafile = browser__metafile_(app_ctx)
@@ -120,10 +118,9 @@ export function rebuild_tailwind_plugin_(config) {
 									update_promise_a1.push(browser__metafile__update(_browser__metafile))
 								}
 								if (update_promise_a1.length) {
-									update_promise = Promise.all(update_promise_a1)
-								} else {
-									rebuild_tailwind_plugin__build_id__set(app_ctx, build_id)
+									await cmd(Promise.all(update_promise_a1))
 								}
+								rebuild_tailwind_plugin__build_id__set(app_ctx, build_id)
 							} catch (err) {
 								if (err instanceof Cancel) return
 								throw err

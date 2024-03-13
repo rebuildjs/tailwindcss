@@ -1,5 +1,11 @@
 # @rebuildjs/tailwindcss
 
+## 0.8.61
+
+### Patch Changes
+
+- rebuild*tailwind_plugin*: tailwind\__build$_: fix: deadlock condition
+
 ## 0.8.60
 
 ### Patch Changes
