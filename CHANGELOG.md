@@ -1,5 +1,15 @@
 # @rebuildjs/tailwindcss
 
+## 0.8.72
+
+### Patch Changes
+
+- postcss: ^8.4.36 -> ^8.4.37
+- Updated dependencies
+- Updated dependencies
+  - ctx-core@6.6.2
+  - rebuildjs@0.66.2
+
 ## 0.8.71
 
 ### Patch Changes
