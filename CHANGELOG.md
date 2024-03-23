@@ -1,5 +1,11 @@
 # @rebuildjs/tailwindcss
 
+## 0.9.0
+
+### Minor Changes
+
+- rebuild*tailwind_plugin*: parallelize tailwindcss builds using pure async: not a web Worker
+
 ## 0.8.78
 
 ### Patch Changes

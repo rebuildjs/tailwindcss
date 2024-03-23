@@ -95,26 +95,35 @@ export function rebuild_tailwind_plugin_(config) {
 							server__output__relative_path_M_middleware_ctx,
 						)=>{
 							try {
-								let server__metafile_updated
-								let browser__metafile_updated
 								await cmd(rebuildjs__esbuild__done__wait())
 								const _server__metafile = server__metafile_(app_ctx)
 								const _browser__metafile = browser__metafile_(app_ctx)
+								const server_output__process_promise_a1 = []
+								const browser_output__process_promise_a1 = []
 								for (const middleware_ctx of server__output__relative_path_M_middleware_ctx.values()) {
-									server__metafile_updated ||= await output__process(
-										_server__metafile,
-										server__output__relative_path_(middleware_ctx),
-										server__output_(middleware_ctx))
-									browser__metafile_updated ||= await output__process(
-										_browser__metafile,
-										browser__output__relative_path_(middleware_ctx),
-										browser__output_(middleware_ctx))
+									server_output__process_promise_a1.push(
+										output__process(
+											_server__metafile,
+											server__output__relative_path_(middleware_ctx),
+											server__output_(middleware_ctx)))
+									browser_output__process_promise_a1.push(
+										output__process(
+											_browser__metafile,
+											browser__output__relative_path_(middleware_ctx),
+											browser__output_(middleware_ctx)))
 								}
-								let update_promise_a1 = []
-								if (server__metafile_updated) {
+								const [
+									server__metafile_updated_a1,
+									browser__metafile_updated_a1,
+								] = await Promise.all([
+									Promise.all(server_output__process_promise_a1),
+									Promise.all(browser_output__process_promise_a1)
+								])
+								const update_promise_a1 = []
+								if (server__metafile_updated_a1.some($=>$)) {
 									update_promise_a1.push(server__metafile__update(_server__metafile))
 								}
-								if (browser__metafile_updated) {
+								if (browser__metafile_updated_a1.some($=>$)) {
 									update_promise_a1.push(browser__metafile__update(_browser__metafile))
 								}
 								if (update_promise_a1.length) {
@@ -141,7 +150,7 @@ export function rebuild_tailwind_plugin_(config) {
 								const esbuild_cssBundle_path = join(cwd_(app_ctx), esbuild_cssBundle)
 								await cmd(file_exists__waitfor(
 									esbuild_cssBundle_path,
-									1000,
+									30_000,
 									()=>cmd(sleep(0))))
 								const esbuild_cssBundle_map_path = esbuild_cssBundle_path + '.map'
 								const esbuild_cssBundle_map_exists = await cmd(file_exists_(esbuild_cssBundle_map_path))
