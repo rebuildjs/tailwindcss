@@ -1,6 +1,6 @@
 {
 	"name": "@rebuildjs/tailwindcss",
-	"version": "0.9.9",
+	"version": "0.9.10",
 	"description": "Tailwindcss integration with rebuildjs",
 	"keywords": [
 		"tailwindcss",
@@ -49,17 +49,17 @@
 		"disable:test:unit:coverage": "c8 pnpm test:unit"
 	},
 	"dependencies": {
-		"ctx-core": "^6.8.0",
+		"ctx-core": "^6.8.1",
 		"esbuild": "^0.20.2",
 		"postcss": "^8.4.38",
-		"rebuildjs": "^0.67.6",
+		"rebuildjs": "^0.67.7",
 		"tailwindcss": "^3.4.3"
 	},
 	"devDependencies": {
 		"c8": "^9.1.0",
 		"check-dts": "^0.7.2",
 		"esmock": "^2.6.4",
-		"relementjs": "^0.77.2",
+		"relementjs": "^0.77.3",
 		"tsx": "^4.7.1",
 		"typescript": "next",
 		"uvu": "^0.5.6"
