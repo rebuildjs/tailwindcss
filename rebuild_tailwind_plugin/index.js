@@ -2,9 +2,9 @@ import { file_exists_, file_exists__waitfor } from 'ctx-core/fs'
 import {
 	be,
 	be_memo_pair_,
-	be_sig_triple_,
 	Cancel,
-	memo_,
+	memo_, ns_id_be_memo_pair_,
+	ns_id_be_sig_triple_,
 	nullish__none_,
 	promise__cancel__throw,
 	rmemo__wait,
@@ -39,18 +39,21 @@ export const [
 	rebuild_tailwind_plugin__build_id$_,
 	rebuild_tailwind_plugin__build_id_,
 	rebuild_tailwind_plugin__build_id__set,
-] = be_sig_triple_(
-	()=>undefined,
-	{ id: 'rebuild_tailwind_plugin__build_id', ns: 'app' })
+] = ns_id_be_sig_triple_(
+	'app',
+	'rebuild_tailwind_plugin__build_id',
+	()=>undefined)
 export const [
 	rebuildjs_tailwind__ready$_,
 	rebuildjs_tailwind__ready_,
-] = be_memo_pair_(ctx=>
-	!!(
-		build_id_(ctx)
+] = ns_id_be_memo_pair_(
+	'app',
+	'rebuildjs_tailwind__ready',
+	ctx=>
+		!!(
+			build_id_(ctx)
 			&& rebuildjs__esbuild__done_(ctx)
-			&& build_id_(ctx) === rebuild_tailwind_plugin__build_id_(ctx)),
-{ id: 'rebuildjs_tailwind__ready', ns: 'app' })
+			&& build_id_(ctx) === rebuild_tailwind_plugin__build_id_(ctx)))
 export function rebuildjs_tailwind__ready__wait(timeout) {
 	return rmemo__wait(
 		rebuildjs_tailwind__ready$_(app_ctx),
