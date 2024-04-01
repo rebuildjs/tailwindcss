@@ -1,5 +1,11 @@
 # @rebuildjs/tailwindcss
 
+## 0.9.15
+
+### Patch Changes
+
+- relementjs: ^0.78.1 -> ^0.78.2
+
 ## 0.9.14
 
 ### Patch Changes
