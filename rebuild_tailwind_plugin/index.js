@@ -1,14 +1,14 @@
 import { file_exists_, file_exists__waitfor } from 'ctx-core/fs'
 import {
-	be,
-	be_memo_pair_,
+	calling,
 	Cancel,
-	memo_, ns_id_be_memo_pair_,
+	memo_,
+	ns_id_be,
+	ns_id_be_memo_pair_,
 	ns_id_be_sig_triple_,
 	nullish__none_,
 	promise__cancel__throw,
 	rmemo__wait,
-	run,
 	sleep,
 	tup
 } from 'ctx-core/rmemo'
@@ -82,11 +82,12 @@ export function rebuild_tailwind_plugin_(config) {
 		setup.tailwind__build$ = tailwind__build$_()
 		return setup
 		function tailwind__build$_() {
-			return be(app_ctx, app_ctx=>{
-				return run(memo_(tailwind__build$=>{
-					r()
-					return tailwind__build$
-					function r() {
+			return ns_id_be(
+				app_ctx,
+				'app',
+				'tailwind__build$',
+				app_ctx=>{
+					return calling(memo_(()=>{
 						if (!rebuildjs__esbuild__done_(app_ctx)) return
 						nullish__none_(tup(
 							build_id_(app_ctx),
@@ -240,9 +241,8 @@ export function rebuild_tailwind_plugin_(config) {
 								)
 							}
 						})
-					}
-				}))
-			}, { id: 'tailwind__build$', ns: 'app' })
+					}))
+				})
 		}
 	}
 }
