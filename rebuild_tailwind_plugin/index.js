@@ -185,7 +185,8 @@ export function rebuild_tailwind_plugin_(config) {
 														prev: await file_json__parse__wait(esbuild_cssBundle_map_path)
 													}
 													: false,
-											})))
+											})),
+									30_000)
 								metafile_updated = !cssBundle.includes('_' + output_hash)
 								const annotated_cssBundle =
 									metafile_updated
