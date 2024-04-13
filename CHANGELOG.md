@@ -1,5 +1,11 @@
 # @rebuildjs/tailwindcss
 
+## 0.9.29
+
+### Patch Changes
+
+- rebuild*tailwind_plugin*: 60s timeout
+
 ## 0.9.28
 
 ### Patch Changes

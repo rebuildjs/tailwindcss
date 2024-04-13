@@ -154,7 +154,7 @@ export function rebuild_tailwind_plugin_(config) {
 								const esbuild_cssBundle_path = join(cwd_(app_ctx), esbuild_cssBundle)
 								await cmd(file_exists__waitfor(
 									esbuild_cssBundle_path,
-									30_000,
+									60_000,
 									()=>cmd(sleep(0))))
 								const esbuild_cssBundle_map_path = esbuild_cssBundle_path + '.map'
 								const esbuild_cssBundle_map_exists = await cmd(file_exists_(esbuild_cssBundle_map_path))
@@ -186,7 +186,7 @@ export function rebuild_tailwind_plugin_(config) {
 													}
 													: false,
 											})),
-									30_000)
+									60_000)
 								metafile_updated = !cssBundle.includes('_' + output_hash)
 								const annotated_cssBundle =
 									metafile_updated
