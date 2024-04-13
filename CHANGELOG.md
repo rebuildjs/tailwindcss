@@ -1,5 +1,11 @@
 # @rebuildjs/tailwindcss
 
+## 0.10.0
+
+### Minor Changes
+
+- tailwindcss: latest (v4)
+
 ## 0.9.30
 
 ### Patch Changes
