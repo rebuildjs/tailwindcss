@@ -1,5 +1,11 @@
 # @rebuildjs/tailwindcss
 
+## 0.9.30
+
+### Patch Changes
+
+- rebuild*tailwind_plugin*: Infinity timeout
+
 ## 0.9.29
 
 ### Patch Changes
