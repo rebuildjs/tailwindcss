@@ -1,5 +1,11 @@
 # @rebuildjs/tailwindcss
 
+## 0.10.2
+
+### Patch Changes
+
+- tailwindcss: back to 3.4.3: v4 does not support some plugins: need to wait
+
 ## 0.10.1
 
 ### Patch Changes
