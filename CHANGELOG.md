@@ -1,5 +1,11 @@
 # @rebuildjs/tailwindcss
 
+## 0.9.31
+
+### Patch Changes
+
+- - ∋ @tailwindcss/postcss
+
 ## 0.10.0
 
 ### Minor Changes
