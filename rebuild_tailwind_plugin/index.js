@@ -8,6 +8,7 @@ import {
 	ns_id_be_sig_triple_,
 	nullish__none_,
 	promise__cancel__throw,
+	ref__bind,
 	rmemo__wait,
 	sleep,
 	tup
@@ -79,7 +80,7 @@ export function rebuild_tailwind_plugin_(config) {
 				}
 			})
 		}
-		setup.tailwind__build$ = tailwind__build$_()
+		ref__bind(setup, tailwind__build$_())
 		return setup
 		function tailwind__build$_() {
 			return ns_id_be(
