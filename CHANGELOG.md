@@ -1,5 +1,11 @@
 # @rebuildjs/tailwindcss
 
+## 0.10.9
+
+### Patch Changes
+
+- rebuildjs: ^0.70.4 -> ^0.70.5
+
 ## 0.10.8
 
 ### Patch Changes
