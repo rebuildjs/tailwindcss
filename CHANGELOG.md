@@ -1,5 +1,14 @@
 # @rebuildjs/tailwindcss
 
+## 0.10.15
+
+### Patch Changes
+
+- esbuild: ^0.21.0 -> ^0.21.1
+- Updated dependencies
+  - ctx-core@7.2.6
+  - rebuildjs@0.70.10
+
 ## 0.10.14
 
 ### Patch Changes
