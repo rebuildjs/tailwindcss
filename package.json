@@ -1,6 +1,6 @@
 {
 	"name": "@rebuildjs/tailwindcss",
-	"version": "0.10.23",
+	"version": "0.10.24",
 	"description": "Tailwindcss integration with rebuildjs",
 	"keywords": [
 		"tailwindcss",
@@ -59,7 +59,7 @@
 		"c8": "^9.1.0",
 		"check-dts": "^0.7.2",
 		"esmock": "^2.6.5",
-		"relementjs": "^0.80.9",
+		"relementjs": "^0.80.10",
 		"tsx": "^4.10.4",
 		"typescript": "next",
 		"uvu": "^0.5.6"
