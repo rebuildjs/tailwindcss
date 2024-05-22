@@ -57,7 +57,7 @@
 	},
 	"devDependencies": {
 		"c8": "^9.1.0",
-		"check-dts": "^0.7.2",
+		"check-dts": "^0.8.0",
 		"esmock": "^2.6.5",
 		"relementjs": "^0.80.10",
 		"tsx": "^4.10.5",
