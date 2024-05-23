@@ -60,7 +60,7 @@
 		"check-dts": "^0.8.0",
 		"esmock": "^2.6.5",
 		"relementjs": "^0.80.10",
-		"tsx": "^4.10.5",
+		"tsx": "^4.11.0",
 		"typescript": "next",
 		"uvu": "^0.5.6"
 	},
