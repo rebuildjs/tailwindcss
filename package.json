@@ -58,7 +58,7 @@
 	"devDependencies": {
 		"c8": "^10.1.2",
 		"check-dts": "^0.8.0",
-		"esmock": "^2.6.5",
+		"esmock": "^2.6.6",
 		"relementjs": "^0.80.17",
 		"tsx": "^4.15.5",
 		"typescript": "next",
