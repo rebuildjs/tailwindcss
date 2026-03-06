@@ -1,5 +1,14 @@
 # @rebuildjs/tailwindcss
 
+## 0.10.60
+
+### Patch Changes
+
+- chore: migrate scripts from pnpm to bun
+- Updated dependencies
+  - ctx-core@7.2.34
+  - rebuildjs@0.70.45
+
 ## 0.10.59
 
 ### Patch Changes
