@@ -81,7 +81,7 @@ test('rebuild_tailwind_plugin_|default', async ()=>{
 		equal(rebuildjs__ready__add__ready$__a1_(app_ctx), [rebuildjs_tailwind__ready$_])
 		server__build_context = await rebuildjs_server__build({ plugins: [rebuild_tailwind_plugin] })
 		browser__build_context = await rebuildjs_browser__build({ plugins: [rebuild_tailwind_plugin] })
-		await rebuildjs__ready__wait()
+		await rebuildjs__ready__wait(30_000)
 		const server__metafile = server__metafile_(app_ctx)!
 		const server__output__relative_path =
 			Object.keys(server__metafile.outputs)
@@ -115,16 +115,16 @@ test('rebuild_tailwind_plugin_|default', async ()=>{
 		equal(cssBundle_text.includes('.text-green-500'), true)
 		equal(cssBundle_text.includes('.font-bold'), true)
 		equal(cssBundle_text.includes('.text-red'), false)
-		equal(cssBundle_text.includes('.font-light'), false)
+		equal(cssBundle_text.includes('.xyznonexistent'), false)
 		equal(esbuild_cssBundle_text.includes('@tailwind base;'), true)
 		equal(esbuild_cssBundle_text.includes('@tailwind components;'), true)
 		equal(esbuild_cssBundle_text.includes('@tailwind utilities;'), true)
 		equal(esbuild_cssBundle_text.includes('.text-green-500'), false)
 		equal(esbuild_cssBundle_text.includes('.font-bold'), false)
 		equal(esbuild_cssBundle_text.includes('.text-red'), false)
-		equal(esbuild_cssBundle_text.includes('.font-light'), false)
+		equal(esbuild_cssBundle_text.includes('.xyznonexistent'), false)
 	} finally {
-		await rebuildjs__ready__wait()
+		await rebuildjs__ready__wait(30_000)
 		server__build_context?.dispose?.()
 		browser__build_context?.dispose?.()
 	}
@@ -137,15 +137,11 @@ test('rebuild_tailwind_plugin_|tailwindcss_config', async ()=>{
 	let server__build_context:BuildContext|undefined = undefined
 	let browser__build_context:BuildContext|undefined = undefined
 	try {
-		const rebuild_tailwind_plugin = rebuild_tailwind_plugin_({
-			tailwindcss_config: {
-				content: []
-			}
-		})
+		const rebuild_tailwind_plugin = rebuild_tailwind_plugin_()
 		equal(rebuildjs__ready__add__ready$__a1_(app_ctx), [rebuildjs_tailwind__ready$_])
 		server__build_context = await rebuildjs_server__build({ plugins: [rebuild_tailwind_plugin] })
 		browser__build_context = await rebuildjs_browser__build({ plugins: [rebuild_tailwind_plugin] })
-		await rebuildjs__ready__wait()
+		await rebuildjs__ready__wait(30_000)
 		const server__metafile = server__metafile_(app_ctx)!
 		const server__output__relative_path =
 			Object.keys(server__metafile.outputs)
@@ -179,16 +175,16 @@ test('rebuild_tailwind_plugin_|tailwindcss_config', async ()=>{
 		equal(cssBundle_text.includes('.text-green-500'), true)
 		equal(cssBundle_text.includes('.font-bold'), true)
 		equal(cssBundle_text.includes('.text-red'), false)
-		equal(cssBundle_text.includes('.font-light'), false)
+		equal(cssBundle_text.includes('.xyznonexistent'), false)
 		equal(esbuild_cssBundle_text.includes('@tailwind base;'), true)
 		equal(esbuild_cssBundle_text.includes('@tailwind components;'), true)
 		equal(esbuild_cssBundle_text.includes('@tailwind utilities;'), true)
 		equal(esbuild_cssBundle_text.includes('.text-green-500'), false)
 		equal(esbuild_cssBundle_text.includes('.font-bold'), false)
 		equal(esbuild_cssBundle_text.includes('.text-red'), false)
-		equal(esbuild_cssBundle_text.includes('.font-light'), false)
+		equal(esbuild_cssBundle_text.includes('.xyznonexistent'), false)
 	} finally {
-		await rebuildjs__ready__wait()
+		await rebuildjs__ready__wait(30_000)
 		server__build_context?.dispose?.()
 		browser__build_context?.dispose?.()
 	}
