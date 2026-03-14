@@ -169,6 +169,7 @@ export function rebuild_tailwind_plugin_(config) {
 									.replace(/@tailwind\s+base\s*;/g, '@import "tailwindcss";')
 									.replace(/@tailwind\s+components\s*;/g, '')
 									.replace(/@tailwind\s+utilities\s*;/g, '')
+								await cmd(writeFile(esbuild_cssBundle_path, esbuild_css))
 								const result = await file_exists__waitfor(
 									async ()=>cmd(
 										postcss(
