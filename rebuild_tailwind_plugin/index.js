@@ -14,7 +14,7 @@ import {
 	tup
 } from 'ctx-core/rmemo'
 import { readFile, writeFile } from 'node:fs/promises'
-import { basename, join } from 'node:path'
+import { basename, dirname, join } from 'node:path'
 import postcss from 'postcss'
 import {
 	app_ctx,
@@ -170,6 +170,9 @@ export function rebuild_tailwind_plugin_(config) {
 									.replace(/@tailwind\s+components\s*;/g, '')
 									.replace(/@tailwind\s+utilities\s*;/g, '')
 								await cmd(writeFile(esbuild_cssBundle_path, esbuild_css))
+								const postcss_from = output.entryPoint
+									? join(cwd_(app_ctx), dirname(output.entryPoint), basename(esbuild_cssBundle))
+									: esbuild_cssBundle_path
 								const result = await file_exists__waitfor(
 									async ()=>cmd(
 										postcss(
@@ -178,7 +181,7 @@ export function rebuild_tailwind_plugin_(config) {
 										).process(
 											esbuild_css,
 											{
-												from: esbuild_cssBundle_path,
+												from: postcss_from,
 												to: join(cwd_(app_ctx), cssBundle),
 												map: esbuild_cssBundle_map_exists
 													? {
